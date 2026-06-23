@@ -646,7 +646,7 @@ export async function handleEventIngest(request, env) {
     return errorResponse("unavailable", "Event store unavailable.", 503);
   }
   const raw = await request.text();
-  if (raw.length > MAX_EVENTS_INGEST_BODY_BYTES) {
+  if (utf8Bytes(raw).length > MAX_EVENTS_INGEST_BODY_BYTES) {
     return errorResponse(
       "payload_too_large",
       `Body exceeds ${MAX_EVENTS_INGEST_BODY_BYTES} bytes.`,
@@ -734,7 +734,7 @@ export async function handleNeuronBackfill(request, env) {
     return errorResponse("unavailable", "History store unavailable.", 503);
   }
   const raw = await request.text();
-  if (raw.length > MAX_BACKFILL_INGEST_BODY_BYTES) {
+  if (utf8Bytes(raw).length > MAX_BACKFILL_INGEST_BODY_BYTES) {
     return errorResponse(
       "payload_too_large",
       `Body exceeds ${MAX_BACKFILL_INGEST_BODY_BYTES} bytes.`,
@@ -822,7 +822,7 @@ export async function handleEconomicsBackfill(request, env) {
     return errorResponse("unavailable", "History store unavailable.", 503);
   }
   const raw = await request.text();
-  if (raw.length > MAX_BACKFILL_INGEST_BODY_BYTES) {
+  if (utf8Bytes(raw).length > MAX_BACKFILL_INGEST_BODY_BYTES) {
     return errorResponse(
       "payload_too_large",
       `Body exceeds ${MAX_BACKFILL_INGEST_BODY_BYTES} bytes.`,
@@ -3257,8 +3257,8 @@ async function handleRpcUsage(request, env, url) {
            FROM rpc_proxy_events
            WHERE observed_at >= ? AND latency_ms IS NOT NULL
          )
-         SELECT MAX(CASE WHEN rn = CAST(0.50 * cnt AS INTEGER) + 1 THEN latency_ms END) AS p50,
-                MAX(CASE WHEN rn = CAST(0.95 * cnt AS INTEGER) + 1 THEN latency_ms END) AS p95
+         SELECT MAX(CASE WHEN rn = CAST(0.50 * cnt AS INTEGER) + (0.50 * cnt > CAST(0.50 * cnt AS INTEGER)) THEN latency_ms END) AS p50,
+                MAX(CASE WHEN rn = CAST(0.95 * cnt AS INTEGER) + (0.95 * cnt > CAST(0.95 * cnt AS INTEGER)) THEN latency_ms END) AS p95
          FROM ranked`,
         [since],
       ),

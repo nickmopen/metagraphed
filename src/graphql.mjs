@@ -234,7 +234,12 @@ export function maxComplexityRule(max) {
 // --- Pagination ---
 
 function paginate(items, limit, cursor, keyFn) {
-  const safeLimit = Math.min(Math.max(1, limit ?? 20), 100);
+  // A missing/non-finite/<1 limit falls back to the default (20) — must NOT
+  // clamp up to 1 (same reasoning as clampLimit in mcp-server / ai-search).
+  const safeLimit =
+    typeof limit === "number" && Number.isFinite(limit) && limit >= 1
+      ? Math.min(Math.floor(limit), 100)
+      : 20;
   let start = 0;
   if (cursor) {
     const idx = items.findIndex((item) => String(keyFn(item)) === cursor);
