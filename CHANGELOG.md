@@ -19,6 +19,35 @@ A few things this project versions differently:
 - **Registry data enrichments** (new/updated subnets, providers, surfaces) are
   not listed here — they show up in the live `/api/v1/changelog` feed.
 
+## [0.21.0](https://github.com/JSONbored/metagraphed/compare/platform-v0.20.1...platform-v0.21.0) (2026-06-23)
+
+
+### Features
+
+* **api:** economic opportunity boards on the registry leaderboards ([#1383](https://github.com/JSONbored/metagraphed/issues/1383)) ([be8ac58](https://github.com/JSONbored/metagraphed/commit/be8ac582e01469ed9caf2bdc4497ba3f471c298b))
+* **webhooks:** at-least-once delivery with redelivery and idempotency keys ([#1460](https://github.com/JSONbored/metagraphed/issues/1460)) ([8f795c4](https://github.com/JSONbored/metagraphed/commit/8f795c43653a4b3bb33a0c0488c000f41e744654))
+
+
+### Bug Fixes
+
+* **ai-search:** cap vectorId by UTF-8 byte length, not UTF-16 length ([#1458](https://github.com/JSONbored/metagraphed/issues/1458)) ([35ef95e](https://github.com/JSONbored/metagraphed/commit/35ef95e106f0c1d06c89f3a15956767d472d4fed)), closes [#1457](https://github.com/JSONbored/metagraphed/issues/1457)
+* **feeds:** clamp length guard by code points, not UTF-16 code units ([#1514](https://github.com/JSONbored/metagraphed/issues/1514)) ([0046a5f](https://github.com/JSONbored/metagraphed/commit/0046a5fd22d2b0e6a0bc222968e939113ea09d8d)), closes [#1513](https://github.com/JSONbored/metagraphed/issues/1513)
+* **graphql:** validate provider(id) to block artifact path traversal ([#1535](https://github.com/JSONbored/metagraphed/issues/1535)) ([9716987](https://github.com/JSONbored/metagraphed/commit/971698793d01fcec4d9715a0bfda77d6456f6073))
+* **health:** pick latency percentiles by nearest rank, not floor(q*N)+1 ([#1527](https://github.com/JSONbored/metagraphed/issues/1527)) ([dbe3e35](https://github.com/JSONbored/metagraphed/commit/dbe3e351e2aec2474198c458902ed5f8b661a92a)), closes [#1526](https://github.com/JSONbored/metagraphed/issues/1526)
+* **history:** archive prunable neuron_daily backlog before prune ([#1493](https://github.com/JSONbored/metagraphed/issues/1493)) ([4f3020d](https://github.com/JSONbored/metagraphed/commit/4f3020db5877acc1dd80e74f938a8a3889d42fbd))
+* **icon:** limit icon-proxy allowlist, add fetch timeout and size cap to prevent abuse ([#1517](https://github.com/JSONbored/metagraphed/issues/1517)) ([5beac3c](https://github.com/JSONbored/metagraphed/commit/5beac3c474aaf54748f3091c791d031bddeb8888))
+* **icon:** repair proxy egress — UA + direct same-host favicon ([#1124](https://github.com/JSONbored/metagraphed/issues/1124)) ([#1537](https://github.com/JSONbored/metagraphed/issues/1537)) ([02173d4](https://github.com/JSONbored/metagraphed/commit/02173d494ede5b9d569bc1ac84c14fa428cb907f)), closes [#1536](https://github.com/JSONbored/metagraphed/issues/1536)
+* **lineage:** reject duplicate testnet targets ([#1489](https://github.com/JSONbored/metagraphed/issues/1489)) ([7ec077e](https://github.com/JSONbored/metagraphed/commit/7ec077ecf1e4b1c7291adfeb94a74a0def08a759))
+* **mcp:** a &lt;1 limit falls back to the default, not clamped up to 1 ([#1523](https://github.com/JSONbored/metagraphed/issues/1523)) ([b99da8d](https://github.com/JSONbored/metagraphed/commit/b99da8d9b0cc4a43a5edc28fc7a1590c3cbc5088)), closes [#1522](https://github.com/JSONbored/metagraphed/issues/1522)
+* **mcp:** reject non-numeric limits ([#1529](https://github.com/JSONbored/metagraphed/issues/1529)) ([91180cb](https://github.com/JSONbored/metagraphed/commit/91180cb3a1927fa7ecd17bb3a02acf83eb44b27e))
+* require HMAC for staged chain-event batches ([#1454](https://github.com/JSONbored/metagraphed/issues/1454)) ([ffa8879](https://github.com/JSONbored/metagraphed/commit/ffa8879f3e32165710b7828ad45b782119a80904))
+* **scripts:** bound taomarketcap pagination ([#1530](https://github.com/JSONbored/metagraphed/issues/1530)) ([1e8634e](https://github.com/JSONbored/metagraphed/commit/1e8634ec25e62669d8abe85b1b37ae4b65f73b87))
+* **scripts:** walk all TaoMarketCap pages when the API omits `count` ([#1507](https://github.com/JSONbored/metagraphed/issues/1507)) ([f836d2d](https://github.com/JSONbored/metagraphed/commit/f836d2deb293abb6b2cc904182d5e49341c267c6))
+* **security:** block IPv4-embedded IPv6 forms in the SSRF guards ([#1533](https://github.com/JSONbored/metagraphed/issues/1533)) ([0b76562](https://github.com/JSONbored/metagraphed/commit/0b765629cb52aaff9e848e21466865a5a229ed93))
+* **streamer:** read each block's timestamp at its own block_hash ([#1509](https://github.com/JSONbored/metagraphed/issues/1509)) ([49a4e02](https://github.com/JSONbored/metagraphed/commit/49a4e02a7741800b14b1bcf2dfbbfc03eea9957e))
+* **webhooks:** an explicit empty filter allowlist matches nothing, not all ([#1525](https://github.com/JSONbored/metagraphed/issues/1525)) ([81980f8](https://github.com/JSONbored/metagraphed/commit/81980f8bc1d52e61f333dc41c4c71b86fd502ee9)), closes [#1524](https://github.com/JSONbored/metagraphed/issues/1524)
+* **webhooks:** budget redelivery backlog sweeps ([#1531](https://github.com/JSONbored/metagraphed/issues/1531)) ([861d80a](https://github.com/JSONbored/metagraphed/commit/861d80a76b7f0739f8ed31605dfa1bea743e23e7))
+
 ## [0.20.1](https://github.com/JSONbored/metagraphed/compare/platform-v0.20.0...platform-v0.20.1) (2026-06-23)
 
 
