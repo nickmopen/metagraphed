@@ -117,6 +117,18 @@ test("GET /accounts/{ss58}/events rejects an unsupported query param", async () 
   assert.equal(res.status, 400);
 });
 
+test("GET /accounts/{ss58}/events rejects an unknown ?kind= value with invalid_query", async () => {
+  const res = await handleRequest(
+    req(`/api/v1/accounts/${SS58}/events?kind=Bogus`),
+    {},
+    {},
+  );
+  assert.equal(res.status, 400);
+  const body = await res.json();
+  assert.equal(body.error.code, "invalid_query");
+  assert.ok(body.error.message.includes("Bogus"), "error names the bad value");
+});
+
 test("GET /accounts/{ss58}/subnets returns the cross-subnet footprint (#1347)", async () => {
   const env = dbWith({
     registrations: [
